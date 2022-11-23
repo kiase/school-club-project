@@ -342,7 +342,7 @@ async function mousePressed() {
       }
     }
   }
-  if(windowWidth>windowHeight){
+  if(displayWidth>displayHeight){
     if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==CENTER&&changed==false){
       puzzle[puzzle.length-2].blockColor = '#66ff66';
       puzzle[puzzle.length-3].blockColor = '#66ff66';
@@ -361,23 +361,20 @@ async function mousePressed() {
     }
   }
   else{
-    if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==LEFT&&changed==false){
-      await sleep(3000);
-      if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==LEFT&&changed==false){
-        puzzle[puzzle.length-2].blockColor = '#66ff66';
-        puzzle[puzzle.length-3].blockColor = '#66ff66';
-        changed=null;
-        await block_swap(puzzle[puzzle.length-2], puzzle[puzzle.length-3], 20, 30);
-        await sleep(500);
-        changed=true;
-        puzzle[puzzle.length-2].blockColor = '#f6cccc';
-        puzzle[puzzle.length-3].blockColor = '#f6cccc';
-        if(checker()==true){
-          puzzle[puzzle.length-1].blockColor = '#f6cccc'
-          puzzle[puzzle.length-1].tagColor = '#000000';
-          noLoop();
-          gameset();
-        }
+    if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==RIGHT&&changed==false){
+      puzzle[puzzle.length-2].blockColor = '#66ff66';
+      puzzle[puzzle.length-3].blockColor = '#66ff66';
+      changed=null;
+      await block_swap(puzzle[puzzle.length-2], puzzle[puzzle.length-3], 20, 30);
+      await sleep(500);
+      changed=true;
+      puzzle[puzzle.length-2].blockColor = '#f6cccc';
+      puzzle[puzzle.length-3].blockColor = '#f6cccc';
+      if(checker()==true){
+        puzzle[puzzle.length-1].blockColor = '#f6cccc'
+        puzzle[puzzle.length-1].tagColor = '#000000';
+        noLoop();
+        gameset();
       }
     }
   }
