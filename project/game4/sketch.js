@@ -1,381 +1,413 @@
+let room1=0,room2=0,room3=0,room4=0,lobby=0
+let pz1=0,pz2=0,pz3=0,pz4=0,pz1_1,pz_1_11,pz_1_12,lockpin=5347182,pinLq=419;
+let box=1,box1=1,lockpinR=0,Ykey=1
+let mc=0,Time=0,Redkey=0,blackkey=0;
+let note,Rbox,Lbox,Bkey,end;
 
-class grid{
-  constructor(gx, gy, gw, gh, rx, ry){
-    this.gridX = gx;
-    this.gridY = gy;
-    this.gridWidth = gw;
-    this.gridHeight = gh;
-    this.rangeX = rx;
-    this.rangeY = ry;
-    this.cellWidth = this.gridWidth/this.rangeX;
-    this.cellHeight = this.gridHeight/this.rangeY;
-  }
-  
-  draw(){
-    strokeWeight(1);
-    for(let i=0;i<=this.rangeX;i++){ //세로줄
-      line(this.gridWidth/this.rangeX*i, this.gridY, this.gridWidth/this.rangeX*i, this.gridY+this.gridHeight);
-    }
-    for(let i=0;i<=this.rangeY;i++){ //가로줄
-      line(this.gridX, this.gridHeight/this.rangeY*i, this.gridX+this.gridWidth, this.gridHeight/this.rangeY*i);
-    }
-  }
-  
-  getCell(x, y){
-    let r = [];
-    if(x>=0&&x<this.rangeX){
-      append(r, this.gridWidth/this.rangeX*x);
-    }
-    else{
-      append(r, null);
-    }
-    if(y>=0&&y<this.rangeY){
-      append(r, this.gridHeight/this.rangeY*y);
-    }
-    else{
-      append(r, null);
-    }
-    append(r, this.gridWidth/this.rangeX);
-    append(r, this.gridHeight/this.rangeY);
-    return {x: r[0], y: r[1], width: r[2], height: r[3]}
-  }
-  
-}
-class block{
-  constructor(xpos, ypos, w, h, tag, tagsize) {
-    this.x = xpos;
-    this.y = ypos;
-    this.width = w;
-    this.height = h;
-    this.blockColor = '#f6cccc';
-    this.count = 10;
-    this.tag = tag;
-    this.tagColor = '#000000';
-    this.tagSize = tagsize;
-    this.trigger = false;
-  }
-  
-  draw(){
-    fill(this.blockColor);
-    stroke('#000000');
-    rect(this.x, this.y, this.width, this.height);
-  }
-  
-  tagDraw(){
-    fill(this.tagColor);
-    noStroke();
-    textSize(this.tagSize);
-    textAlign(CENTER, CENTER);
-    text(this.tag, this.x+this.width/2, this.y+this.height/2);
-  }
-  
-  move(x, y){
-    this.x+=x
-    this.y+=y
-  }
-  
-  set(x, y){
-    this.x=x
-    this.y=y
-  }
-  
-  onClick(){
-    if(this.x<mouseX&&this.x+this.width>mouseX&&
-       mouseIsPressed==true&&
-       this.y<mouseY&&this.y+this.height>mouseY){
-      return true;
-    }
-    else{
-      return false;
-    }
-  }
-  
-  getCenter(){
-    let Rside = [this.x+this.width, this.y+this.height/2];
-    let Lside = [this.x, this.y+this.height/2];
-    let Tside = [this.x+this.width/2, this.y];
-    let Bside = [this.x+this.width/2, this.y+this.height];
-    let center = [this.x+this.width/2, this.y+this.height/2];
-    return {Rside, Lside, Tside, Bside, center};
-  }
-  
-}
-let puzzle = [];
-let volume = [];
-let g;
-let clicked_block = [];
-let move_count = 0;
-let changed = false;
-let cvsize;
-let input, button=[];
-let sta_call=false;
-let gametime=[0, 0, 0];
+let dot1,dot2,dot3;
 
-async function gt(){
-  await sleep(100);
-  gametime[2] += 1;
-  if(gametime[2]>=10){
-    gametime[1]+=1;
-    gametime[2]=0;
-  }
-  if(gametime[1]>=60){
-    gametime[0]+=1;
-    gametime[1]=0;
-  }
-  gt();
+let X1=0,X2=0,X3=0;
+
+let a=0, t=0;
+
+let loading=0,start=0;
+
+let R_lobby,R1,R2,R3,R4,R_h,R_h_claer;
+let R1_d_1,R1_d_11,R1_d112,R1_d_2,R1_d_2_clear,R2_open,pz1_open;
+let arrowL , arrowR
+let R3_open,R3_drop,R3_solve
+let light_on , light_off
+let map='',lock,R1_d_d,R1_d_get,Rkey,note2
+
+function preload() {
+  lockpinR=createInput()
+  lockpinR.position(300, 560);
+  lockpinR.hide()
+  pinL=createInput()
+  pinL.position(700,70)
+  pinL.hide()
+  R_lobby = loadImage('image/R_lobby.png')
+  R1 = loadImage('image/R1.png')
+  R1_d_1 = loadImage('image/R1_d_1.png')
+  R1_d_11 = loadImage('image/R1_d_11.png')
+  R1_d_112 = loadImage('image/R1_d_112.png')
+  R2 = loadImage('image/R2.png')
+  R3 = loadImage('image/R3.png')
+  R3_open = loadImage('image/R3_open.png')
+  R4 = loadImage('image/R4.png')
+  lock = loadImage('image/0lock.png')
+  R2_open_open = loadImage('image/R2_open_open.png')
+  arrowL = loadImage('image/0L_arrow.png')
+  arrowR = loadImage('image/0R_arrow.png')
+  pz1_1  = loadImage('image/_pz1.png')
+  pz_1_11  = loadImage('image/_pz1_1.png')
+  pz_1_12  = loadImage('image/_pz1_2.png')
+  pz1_open  = loadImage('image/pz1_open.png')
+  R1_d_d = loadImage('image/R1_d_d.png')
+  R1_d_get = loadImage('image/R1_d_get.png')
+  Rkey = loadImage('image/Rkey.png')
+  note = loadImage('image/note111.png')
+  note2 = loadImage('image/note2.png')
+  Rbox  = loadImage('image/Rbox.png')
+  Lbox  = loadImage('image/Lbox.png')
+  Bkey = loadImage('image/Bkey-1.png')
+  end = loadImage('image/ending.png')
 }
 
-function checker(){
-  let a=0;
-  for(let i=0;i<sqrt(puzzle.length);i++){
-    for(let j=0;j<sqrt(puzzle.length)-1;j++){
-      if(round(puzzle[i*sqrt(puzzle.length)+j].getCenter().Rside[0], 7)==
-         round(puzzle[i*sqrt(puzzle.length)+j+1].getCenter().Lside[0], 7)&&
-         round(puzzle[i*sqrt(puzzle.length)+j].getCenter().Rside[1], 7)==
-         round(puzzle[i*sqrt(puzzle.length)+j+1].getCenter().Lside[1], 7)){
-        a+=1;
-      }
-    }
-    try{
-      if(round(puzzle[i*sqrt(puzzle.length)].getCenter().Bside[0], 7)==
-         round(puzzle[(i+1)*sqrt(puzzle.length)].getCenter().Tside[0], 7)&&
-         round(puzzle[i*sqrt(puzzle.length)].getCenter().Bside[1], 7)==
-         round(puzzle[(i+1)*sqrt(puzzle.length)].getCenter().Tside[1], 7)){
-        a+=1;
-      }
-    }
-    catch(e){}
-  }
-  if(a==(sqrt(puzzle.length)-1)*sqrt(puzzle.length)+sqrt(puzzle.length)-1){
-    return true;
-  }
-  else{
-    return false;
-  }
-}
 
-async function block_swap(class1, class2, ms, mult){
-  let pos1 = [class1.x, class1.y];
-  let pos2 = [class2.x, class2.y];
-  let v1 = createVector(class1.getCenter().center[0], class1.getCenter().center[1]);
-  let v2 = createVector(class2.getCenter().center[0], class2.getCenter().center[1]);
-  let v3 = v1.copy();
-  v3.mult(-1);
-  v3.add(v2);
-  let v4 = v2.copy();
-  v4.mult(-1);
-  v4.add(v1);
-  for(let j=1;j<=mult;j++){
-    vec = [v1.copy(), v2.copy(), v3.copy(), v4.copy()];
-    vec[2].div(mult).mult(j);
-    vec[3].div(mult).mult(j);
-    vec[0].add(vec[2]);
-    vec[1].add(vec[3]);
-    class1.set(vec[0].x-class1.width/2, vec[0].y-class1.height/2);
-    class2.set(vec[1].x-class2.width/2, vec[1].y-class2.height/2);
-    await sleep(ms);
-  }
-  class1.set(pos2[0], pos2[1]);
-  class2.set(pos1[0], pos1[1]);
-}
 
-async function gameset(){
-  for(let i=0;i<20;i++){
-    noStroke();
-    fill('#00000018');
-    rect(0, 0, cvsize, cvsize);
-    await sleep(20);
-  }
-  await sleep(1000);
-  fill('#ffcccc');
-  textSize(70);
-  text(g.rangeX+' X '+g.rangeY, cvsize/2, cvsize/5*1);
-  await sleep(1000);
-  textSize(50);
-  text('사이즈 퍼즐 완료', cvsize/2, cvsize/5*2);
-  await sleep(1000);
-  text('소요 시간 : '+gametime[0]+':'+gametime[1]+'.'+gametime[2], cvsize/2, cvsize/5*3);
-  if(g.rangeX==5){
-    await sleep(1000);
-    textSize(30);
-    text('이 화면을 저희에게 보여주세요!', cvsize/2, cvsize/5*4);
-  }
+
+setInterval(() => Time++, 300);
+//시간 함수
+
+function setup() {
+  createCanvas(800, 600);
+   background(0);  
 }
 
 function sleep(ms){
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
-  })}
+  })
+}
+//딜레이 함수
 
-async function starter(level){
-  if(sta_call==false){
-    sta_call = true;
-  }
-  let pz_level = level;
-  g = new grid(0, 0, cvsize, cvsize, pz_level, pz_level);
-  for(let i=0;i<g.rangeY;i++){
-    for(let j=0;j<g.rangeX;j++){
-      if(level<=5){
-        append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 40));
-      }else{
-        append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 25));
-      }
+async function draw() {
+   console.log(mouseX,mouseY,box1,map,box,Redkey)
+  if(loading>=2 && start==0){
+    if(Time==1){
+      X1=-10
+      X2=0
+      X3=0
+      t=t+20
+    }else if(Time==2){
+      X1=0
+      X2=-10
+      X3=0
+      t=t+20
+    }else if(Time>=3){
+      X1=0
+      X2=0
+      X3=-10
+      Time=0
+      t=t+20
     }
-  }
-  for(let i=0;i<g.rangeX*g.rangeY;i++){
-    append(volume, i);
-  }
-  shuffle(volume, true);
-  for(let i=0;i<puzzle.length;i++){
-    puzzle[i].set(g.cellWidth*(floor(volume[i]/g.rangeX)), g.cellHeight*(volume[i]%g.rangeY));
-    if(puzzle.length-1==i){
-      puzzle[i].blockColor = '#ffffff00';
-      puzzle[i].tagColor = '#ffffff00';
-      puzzle[i].trigger = null;
+    
+    background(255)
+    textSize(50);
+    stroke('black');
+    strokeWeight(2);
+    fill('black')
+    text('Now Loading',230,height/2-100)
+    text('.',535,200+X1)
+    text('.',545,200+X2)
+    text('.',555,200+X3)
+    rect(30,height/2,740,30)
+    fill('white')
+    rect(30,height/2,t,30) 
+    }//로딩화면
+    if(t==740){
+      start++
+      lobby=1
+      t++
+      map='R1'
+  }//로비 입장
+ 
+  
+  
+  if(lobby==1){
+    background(0)
+    image(R_lobby,0,0);
+    text('방탈출',30,50)
+    text('시작하기',width-250,height-100)
+    
+  } //로비
+  
+  if(lobby==1 && mouseX>540 && mouseY>450 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();  
+      lobby=0
+      room1=1
+     }//시작
+  
+  
+  if(room1==1){
+    image(eval(map),0,0)
+    if(map=='R1' && mouseX>83 && mouseX<313 && mouseY>334 && mouseY<512 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_1'
+    }//서랍
+    if(map=='R1_d_1'&& box==1 && mouseX>57 && mouseX<754 && mouseY>200 && mouseY<356 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_11'
+      }//서랍 열기
+    if(map=='R1_d_1'&& box==0 && mouseX>57 && mouseX<754 && mouseY>200 && mouseY<356 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_112'
+      }//서랍 상자 먹기
+    if(map=='R1_d_1' && mouseX>583 && mouseX<672 && mouseY>526 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1'
+    }//돌아가기
+    if(map=='R1_d_11' && mouseY<256 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_1'
+    } //돌아가기
+    if(map=='R1_d_11' && mouseX>450 && mouseX<600 && mouseY>306 && mouseY<426 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_112'
+      box=0
+  }//템 먹기
+    if(map=='R1_d_112'&& mouseY<230 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop();
+      map='R1_d_1'
+      }//돌아가기
+    if(map=='R1'&&mouseX<80 && mouseY<555 && mouseY>460 && mouseIsPressed===true){
+      map='R2'
+      room1=0
+      room2=1
+    }//왼 화살표
+    if(map=='R1'&&mouseX<755 && mouseX>690 && mouseY<500 && mouseY>440 && mouseIsPressed===true){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room1=0
+      room4=1
+      map='R4'
+    }//오 화살표
+    if(map=='R1_d_1'&&Ykey==1&&mouseIsPressed===true&&mouseX<570&&mouseY>420){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      map='R1_d_d'
+      
     }
-  }
-  await sleep(500);
-  gt();
-  loop();
-}
-
-function setup() {
-  noLoop();
-  if(windowWidth>windowHeight){
-    createCanvas(windowHeight-100, windowHeight);
-    cvsize = windowHeight-100
-  }
-  else{
-    createCanvas(windowWidth, windowWidth+100);
-    cvsize = windowWidth
-  }
-  background(220);
-  textAlign(CENTER, CENTER);
-  textSize(30);
-  text('퍼즐 크기를 선택하세요', width/2, height/5);
-  for(let i=0;i<11;i++){
-    button[i] = createButton((i+3)+'x'+(i+3));
-    button[i].size(60, 60);
-    button[i].position(windowWidth/2-width/4+width/6*(i%4), height/3+80*floor(i/4));
-    button[i].mousePressed(eval('ff'+(i+3)));
-  }
-}
-function bth(){
-  for(let i=0;i<button.length;i++){
-    button[i].hide();
-  }
-  text('퍼즐 제작중..', width/2, height/5*4);
-}
-function ff3(){bth();starter(3);}
-function ff4(){bth();starter(4);}
-function ff5(){bth();starter(5);}
-function ff6(){bth();starter(6);}
-function ff7(){bth();starter(7);}
-function ff8(){bth();starter(8);}
-function ff9(){bth();starter(9);}
-function ff10(){bth();starter(10);}
-function ff11(){bth();starter(11);}
-function ff12(){bth();starter(12);}
-function ff13(){bth();starter(13);}
-
-function draw(){
-  if(sta_call==false){
-    return null;
-  }
-  background(220);
-  g.draw();
-  for(let i=0;i<puzzle.length;i++){
-    puzzle[i].draw();
-    puzzle[i].tagDraw();
-  }
-  fill('#6666ff');
-  strokeWeight(1);
-  textSize(40);
-  textAlign(CENTER,CENTER);
-  text('블록 이동 횟수 : '+move_count+'회', width/2, width+((height-width)/2)-12);
-  textSize(13);
-  if(changed==false){
-  text('최초 1회에 한해, 빈칸 휠 클릭으로 마지막 두 번호의 위치를 바꿀 수 있습니다. ['+int(puzzle.length-2)+'↔'+int(puzzle.length-1)+']', width/2, width+((height-width)/2)+20);
-  }
-  else if(changed==null){
-  text('위치를 바꾸고 있습니다...', width/2, width+((height-width)/2)+20);
-  }
-  else{
-  text('위치를 바꾸었습니다! 더이상 바꿀 수 없습니다.', width/2, width+((height-width)/2)+20);
-  }
-}
-
-async function mousePressed() {
-  if(sta_call==false){
-    return null;
-  }
-  for(let i=0;i<puzzle.length;i++){
-    if(puzzle[i].onClick()==true&&puzzle[i].trigger==false){
-      puzzle[i].blockColor = '#ff0000';
-      puzzle[i].trigger = true;
-      if(round(puzzle[i].getCenter().Rside[0], 7)==round(puzzle[puzzle.length-1].getCenter().Lside[0], 7)&&
-         round(puzzle[i].getCenter().Rside[1], 7)==round(puzzle[puzzle.length-1].getCenter().Lside[1], 7)||
-         round(puzzle[i].getCenter().Lside[0], 7)==round(puzzle[puzzle.length-1].getCenter().Rside[0], 7)&&
-         round(puzzle[i].getCenter().Lside[1], 7)==round(puzzle[puzzle.length-1].getCenter().Rside[1], 7)||
-         round(puzzle[i].getCenter().Tside[0], 7)==round(puzzle[puzzle.length-1].getCenter().Bside[0], 7)&&
-         round(puzzle[i].getCenter().Tside[1], 7)==round(puzzle[puzzle.length-1].getCenter().Bside[1], 7)||
-         round(puzzle[i].getCenter().Bside[0], 7)==round(puzzle[puzzle.length-1].getCenter().Tside[0], 7)&&
-         round(puzzle[i].getCenter().Bside[1], 7)==round(puzzle[puzzle.length-1].getCenter().Tside[1], 7)){
-        move_count+=1;
-        await block_swap(puzzle[i], puzzle[puzzle.length-1], 20, 15);
-        await sleep(20);
-        puzzle[i].blockColor = '#f6cccc';
-        puzzle[i].trigger = false;
-        if(checker()==true){
-          puzzle[puzzle.length-1].blockColor = '#f6cccc'
-          puzzle[puzzle.length-1].tagColor = '#000000';
-          noLoop();
-          gameset();
+    if(map=='R1_d_1'&&Ykey==0&&mouseIsPressed===true&&mouseX<570&&mouseY>420){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      map='R1_d_get'
+      
+    }
+    if(map=='R1_d_d'&&Ykey==1&&mouseIsPressed===true&&mouseX>230&&mouseX<435&&mouseY>360&&mouseY<430){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      map='R1_d_get'
+      Ykey=0
+      Time=0
+    }
+    if(mouseIsPressed===true&&map=='R1_d_get'&&mouseY<300){
+      map='R1_d_1'
+    }
+    if(Ykey==0&&box==0){
+      
+      image(Rkey,100,100)
+        if(Time==3){
+          image(eval(map),0,0)
+          box=-1
+          Redkey=1
+          Ykey=-1
+          
         }
-      }
-      else{
-        puzzle[i].blockColor = '#ff0000';
-        puzzle[i].trigger = true;
-        await sleep(200);
-        puzzle[i].blockColor = '#f6cccc';
-        puzzle[i].trigger = false;
+    }
+    if(map=='R1_d_11'&&mouseIsPressed===true){
+      Time=0
+    if(mouseIsPressed===true&&mouseX>85&&mouseX<250&&mouseY>300&&mouseY<500){
+      image(note,0,0)
+        if(Time==2){
+          image(map,0,0)
+        }
+       }
+    }
+    if(mouseIsPressed===true&&mouseX>730&&mouseX<760&&mouseY>340&&mouseY<380&&blackkey==2){
+      room1=0
+      room2=0
+      room3=0
+      room4=0
+      image(end,0,0)
+      noLoop()
+    }
+    
+  } 
+  if(room2==1){
+    image(eval(map),0,0);
+    if(map=='R2'&&mouseIsPressed===true&&mouseX<80&&mouseY<480&&mouseY>380){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room2=0
+      room3=1
+      map='R3'
+    }
+    if(map=='R2'&&mouseIsPressed===true&&mouseX>685&&mouseY<470&&mouseY>380){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room2=0
+      room1=1
+      map='R1'
+    }
+    if(map=='R2_open_open'&&mouseIsPressed===true&&mouseX<80&&mouseY<480&&mouseY>380){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room2=0
+      room3=1
+      map='R3'
+    }
+    if(map=='R2_open_open'&&mouseIsPressed===true&&mouseX>685&&mouseY<470&&mouseY>380){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room2=0
+      room1=1
+      map='R1'
+    }
+    
+    
+    if(map=='R2'&& mouseX>572&&mouseX<617&&mouseX>572&&mouseY>375&&mouseY<408&& mouseIsPressed===true){
+      noLoop()
+      await sleep(100)
+      loop()
+      map='lock'
+    }
+    if(map=='lock'&&mouseX>125&&mouseX<586&&mouseY>439&&mouseY<555&&mouseIsPressed===true){
+      noLoop()
+      await sleep(100)
+      loop()
+      lockpinR.show()
+        if(lockpin==int(lockpinR.value())){
+          map='R2_open_open'
+          lockpinR.hide()
+          
+        }
+    }else if(map=='lock'&&mouseY<445&&mouseIsPressed===true){
+      noLoop()
+      await sleep(100)
+      loop()       
+      map='R2'
+      lockpinR.hide()
+      }  
+    if(box1==1&&map=='R2_open_open'){
+            image(Rbox,0,0)
+          }
+          if(mouseIsPressed===true&&mouseX>513&&mouseX<577&&mouseY>233&&mouseY<272&&map=='R2_open_open'){
+            box1=0
+            
+          }
+  }
+  
+  if(room3==1){
+    image(eval(map),0,0)
+    image(arrowL,0,450)
+    image(arrowR,width-70,450)
+    if(map=='R3'&&mouseIsPressed===true&&mouseX<70&&mouseY>450){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room4=1
+      room3=0
+      map='R4'
+    }
+    if(map=='R3'&&mouseIsPressed===true&&mouseX>width-70&&mouseY>450){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room2=1
+      room3=0
+      map='R2'
+    }
+    if(mouseIsPressed===true&& mouseX<560&&mouseY<260){
+      map='pz1_1'
+    }
+    if(map=='pz1_1'&&mouseIsPressed===true&&mouseX>100&&mouseX<200&&mouseY>300&&mouseY<360){
+      map='pz_1_11'
+      noLoop();
+      await sleep(100);
+      loop();
+      pz1=pz1+1
+      map='pz1_1'
+    }
+    if(map=='pz1_1'&&mouseIsPressed===true&&mouseX>590&&mouseX<690&&mouseY>300&&mouseY<360){
+      map='pz_1_12'
+      noLoop();
+      await sleep(100);
+      loop();
+      pz2=pz2+1
+      map='pz1_1'
+        if(pz1+pz2>=20){
+         map='pz1_open' 
+   } 
+    }
+   
+    if(map=='pz1_open'&&mouseIsPressed===true&&mouseX>374&&mouseX<417&&mouseY>311&&mouseY<345){
+      image(note2,0,0)
+  }else if(map!='R3'&&mouseY<200&&mouseIsPressed===true){
+    noLoop();
+      await sleep(100);
+      loop();
+    map='R3'
+  }
+}
+  
+  if (room4==1){
+    image(eval(map),0,0)
+    image(arrowL,0,450)
+    image(arrowR,width-70,450)
+    if(map=='R4'&&mouseIsPressed===true&&mouseX<70&&mouseY>450){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room4=0
+      room1=1
+      map='R1'
+    }
+    if(map=='R4'&&mouseIsPressed===true&&mouseX>width-70&&mouseY>450){
+      noLoop();
+      await sleep(100)
+      loop(); 
+      room4=0
+      room3=1
+      map='R3'
+    }
+  }
+   if(box1==0&&Redkey==1){
+    image(Lbox,0,0)
+      if(mouseIsPressed===true&&mouseX>700&&mouseY<70){
+        pinL.show()
+        if(pinLq==int(pinL.value())){
+          Redkey=0
+          pinL.hide()
+          blackkey=1
+          Time=0
       }
     }
   }
-  if(displayWidth>displayHeight){
-    if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==CENTER&&changed==false){
-      puzzle[puzzle.length-2].blockColor = '#66ff66';
-      puzzle[puzzle.length-3].blockColor = '#66ff66';
-      changed=null;
-      await block_swap(puzzle[puzzle.length-2], puzzle[puzzle.length-3], 20, 30);
-      await sleep(500);
-      changed=true;
-      puzzle[puzzle.length-2].blockColor = '#f6cccc';
-      puzzle[puzzle.length-3].blockColor = '#f6cccc';
-      if(checker()==true){
-        puzzle[puzzle.length-1].blockColor = '#f6cccc'
-        puzzle[puzzle.length-1].tagColor = '#000000';
-        noLoop();
-        gameset();
+  if(blackkey==1){
+    image(Bkey,250,200)
+      if(Time==3){
+        blackkey=2
       }
-    }
   }
-  else{
-    if(puzzle[puzzle.length-1].onClick()==true&&mouseButton==RIGHT&&changed==false){
-      puzzle[puzzle.length-2].blockColor = '#66ff66';
-      puzzle[puzzle.length-3].blockColor = '#66ff66';
-      changed=null;
-      await block_swap(puzzle[puzzle.length-2], puzzle[puzzle.length-3], 20, 30);
-      await sleep(500);
-      changed=true;
-      puzzle[puzzle.length-2].blockColor = '#f6cccc';
-      puzzle[puzzle.length-3].blockColor = '#f6cccc';
-      if(checker()==true){
-        puzzle[puzzle.length-1].blockColor = '#f6cccc'
-        puzzle[puzzle.length-1].tagColor = '#000000';
-        noLoop();
-        gameset();
-      }
-    }
-  }
+  
+  
+}
+function mouseClicked(){
+  loading=loading+1
 }

@@ -36,7 +36,7 @@ async function gameset(){
   textSize(50);
   text('점수'+score.count+'점', width/2, height/5*2);
   await sleep(1000);
-  if(score.count>5000){
+  if(score.count>=5000){
     text('축하합니다', width/2, height/5*3);
     await sleep(1000);
     textSize(30);
@@ -55,7 +55,7 @@ function draw(){
   if(frameCount%241==0){
     addRain();
   }
-  if(frameCount%277==0){
+  if(frameCount%477==0){
     addRain();
   }
 }
@@ -136,7 +136,7 @@ class Score{
     textAlign(CENTER);
     text(this.count,width/2,80);
     
-    if(box.hp == 0){
+    if(box.hp <= 0){
       noLoop();
       gameset();
       push();
@@ -182,6 +182,6 @@ class ql{
     stop(){
         this.x = random(10 , width -10);
         this.y = -100;
-        box.hp -= 10;
+        box.hp -= 23;
     }
 }
