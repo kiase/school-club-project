@@ -73,7 +73,6 @@ function sleep(ms){
 //딜레이 함수
 
 async function draw() {
-   console.log(mouseX,mouseY,box1,map,box,Redkey)
   if(loading>=2 && start==0){
     if(Time==1){
       X1=-10
