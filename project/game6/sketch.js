@@ -18,7 +18,6 @@ function setup(){
   noStroke();
   Rain.push(new ql(5, 60, 1, 'lightblue', 10, 5, 5, -1, false));
 }
-
 function sleep(ms){
   return new Promise((resolve) => {
     setTimeout(resolve, ms);
