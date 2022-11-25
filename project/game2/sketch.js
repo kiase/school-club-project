@@ -72,7 +72,7 @@ class Player{
     this.y=0;
     this.size=35;
     this.speed=10;
-    this.hp=120;
+    this.hp=240;
     }
   
   render(){
