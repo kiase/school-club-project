@@ -195,7 +195,7 @@ async function gameset(){
   text('사이즈 퍼즐 완료', cvsize/2, cvsize/5*2);
   await sleep(1000);
   text('소요 시간 : '+gametime[0]+':'+gametime[1]+'.'+gametime[2], cvsize/2, cvsize/5*3);
-  if(g.rangeX==5){
+  if(g.rangeX==4){
     await sleep(1000);
     textSize(30);
     text('이 화면을 저희에게 보여주세요!', cvsize/2, cvsize/5*4);
