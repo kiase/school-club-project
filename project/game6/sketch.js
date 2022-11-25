@@ -98,6 +98,27 @@ function draw(){
     else{
       addRain('normal');
     }
+ 
+  if(frameCount%97==0){
+    let i = random(0, 100);
+    if(i<=40){
+      addRain('hard');
+    }
+    else if(i<=45){
+      addRain('speed');
+    }
+    else if(i<=47){
+      addRain('board');
+    }
+    else if(i<=49){
+      addRain('heal');
+    }
+    else if(i<=50){
+      addRain('blood');
+    }
+    else{
+      addRain('normal');
+    }
   }
   if(bi_count>=6){
     bi_count = 0;
@@ -164,7 +185,7 @@ function addRain(type){
       Rain.push(new ql(5, 60, 1.4+random(-0.1, 0.1), 'red', 15, 30, 5, round(random(5, 30)), true));
     }
     else if(type=='heal'){
-      Rain.push(new ql(10, 60, 0.8+random(-0.1, 0.1), 'green', -60, 0, 0, 4, true));
+      Rain.push(new ql(10, 60, 0.8+random(-0.1, 0.1), 'green', -20, 0, 0, 4, true));
     }
     else if(type=='speed'){
       Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 7, 3, 0, round(random(15, 30)), false));
@@ -281,7 +302,7 @@ class ql{
         this.y = -100;
         this.w = w;
         this.h = h;
-        this.v = v;
+        this.v = v*1.2;
         this.c = c;
         this.d = d;
         this.pd = pd;
