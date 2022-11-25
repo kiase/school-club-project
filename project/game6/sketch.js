@@ -173,7 +173,7 @@ function addRain(type){
       Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, -1, false));
     }
     else if(type=='board'){
-      Rain.push(new ql(300, 20, 0.6+random(0, 0.2), 'blue', 30, 30, 0, round(random(3, 7)), true));
+      Rain.push(new ql(300, 20, 0.7+random(0, 0.2), 'blue', 30, 30, 0, round(random(3, 7)), true));
     }
     else if(type=='blood'){
       Rain.push(new ql(20, 100, 1.4+random(-0.1, 0.1), 'darkred', 50, 400, 20, round(random(3, 10)), true));
@@ -333,7 +333,7 @@ class ql{
       }
     }
     remove(){
-        this.x = random(10 , width -10);
+        this.x = 9999;
         this.y = -100;
         this.w = 0;
         this.h = 0;
