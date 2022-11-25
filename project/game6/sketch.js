@@ -333,9 +333,10 @@ class ql{
       }
     }
     remove(){
-        this.x = -100;
+        this.x = 0;
         this.y = 0;
-        this.w = 0;
-        this.h = 0;
+        this.m=0;
+        this.w = 5;
+        this.h = 5;
     }
 }
