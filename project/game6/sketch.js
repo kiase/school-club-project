@@ -98,6 +98,7 @@ function draw(){
     else{
       addRain('normal');
     }
+  }
  
   if(frameCount%97==0){
     let i = random(0, 100);
