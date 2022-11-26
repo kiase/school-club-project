@@ -195,11 +195,6 @@ async function gameset(){
   text('사이즈 퍼즐 완료', cvsize/2, cvsize/5*2);
   await sleep(1000);
   text('소요 시간 : '+gametime[0]+':'+gametime[1]+'.'+gametime[2], cvsize/2, cvsize/5*3);
-  if(g.rangeX==4){
-    await sleep(1000);
-    textSize(30);
-    text('이 화면을 저희에게 보여주세요!', cvsize/2, cvsize/5*4);
-  }
 }
 
 function sleep(ms){
@@ -253,11 +248,11 @@ function setup() {
   textAlign(CENTER, CENTER);
   textSize(30);
   text('퍼즐 크기를 선택하세요', width/2, height/5);
-  for(let i=0;i<11;i++){
-    button[i] = createButton((i+3)+'x'+(i+3));
+  for(let i=0;i<20;i++){
+    button[i] = createButton((i+2)+'x'+(i+2));
     button[i].size(60, 60);
     button[i].position(windowWidth/2-width/4+width/6*(i%4), height/3+80*floor(i/4));
-    button[i].mousePressed(eval('ff'+(i+3)));
+    button[i].mousePressed(eval('ff'+(i+2)));
   }
 }
 function bth(){
@@ -266,6 +261,7 @@ function bth(){
   }
   text('퍼즐 제작중..', width/2, height/5*4);
 }
+function ff3(){bth();starter(2);}
 function ff3(){bth();starter(3);}
 function ff4(){bth();starter(4);}
 function ff5(){bth();starter(5);}
