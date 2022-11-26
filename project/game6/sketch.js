@@ -180,26 +180,26 @@ function draw(){
 function addRain(type){
   for(var i = 0;i <1;i++){
     if(type=='normal'){
-      Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, round(random(25, 50)), true));
+      Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, round(random(20, 50)), true));
     }
     else if(type=='hard'){
       Rain.push(new ql(5, 60, 1.4+random(-0.1, 0.1), 'red', 15, 30, 5, round(random(10, 40)), true));
     }
     else if(type=='heal'){
-      Rain.push(new ql(10, 60, 0.8+random(-0.1, 0.1), 'green', -20, 0, 0, 4, true));
+      Rain.push(new ql(10, 60, 0.8+random(-0.1, 0.1), 'green', -30, 0, 0, 4, true));
     }
     else if(type=='speed'){
-      Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 7, 3, 0, round(random(15, 30)), false));
-      Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 7, 3, 0, round(random(15, 30)), false));
+      Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 4, 6, 0, round(random(15, 30)), false));
+      Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 4, 6, 0, round(random(15, 30)), false));
     }
     else if(type=='infrain'){
       Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, -1, false));
     }
     else if(type=='board'){
-      Rain.push(new ql(300, 20, 0.85+random(0, 0.3), 'blue', 30, 30, 0, round(random(3, 7)), true));
+      Rain.push(new ql(300, 20, 0.9, 'blue', 30, 30, 0, round(random(3, 7)), true));
     }
     else if(type=='blood'){
-      Rain.push(new ql(20, 100, 1.4+random(-0.1, 0.1), 'darkred', 50, 400, 20, round(random(6, 20)), true));
+      Rain.push(new ql(10, 100, 1.1+random(-0.1, 0.1), 'darkred', 50, 400, 20, round(random(6, 20)), true));
     }
     
   }
@@ -308,7 +308,7 @@ class ql{
         this.c = c;
         this.d = d;
         this.pd = pd;
-        this.pi = round(pi/5);
+        this.pi = round(pi/5, 2);
         this.m = this.h / this.w * this.v;
         this.dead = dead;
         this.life = life;
