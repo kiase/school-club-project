@@ -263,7 +263,7 @@ function bth(){
   }
   text('퍼즐 제작중..', width/2, height/5*4);
 }
-function ff3(){bth();starter(2);}
+function ff2(){bth();starter(2);}
 function ff3(){bth();starter(3);}
 function ff4(){bth();starter(4);}
 function ff5(){bth();starter(5);}
