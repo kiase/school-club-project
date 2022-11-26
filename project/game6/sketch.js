@@ -40,6 +40,7 @@ async function gameset(){
   await sleep(1000);
 }
 
+
 function draw(){
   background(0,0,0);
   if(cantsee==true){
