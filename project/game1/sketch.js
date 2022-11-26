@@ -275,6 +275,14 @@ function ff10(){bth();starter(10);}
 function ff11(){bth();starter(11);}
 function ff12(){bth();starter(12);}
 function ff13(){bth();starter(13);}
+function ff14(){bth();starter(14);}
+function ff15(){bth();starter(15);}
+function ff16(){bth();starter(16);}
+function ff17(){bth();starter(17);}
+function ff18(){bth();starter(18);}
+function ff19(){bth();starter(19);}
+function ff20(){bth();starter(20);}
+function ff21(){bth();starter(21);}
 
 function draw(){
   if(sta_call==false){
