@@ -122,6 +122,7 @@ function draw(){
   }
   if(bi_count>=6){
     bi_count = 0;
+    fat==true;
     box.size = 80;
     box.rs();
   }
@@ -171,7 +172,7 @@ function draw(){
     }
   }
 
-  if(frameCount%1303==0){
+  if(frameCount%979==0){
     addRain('infrain');
   }
 
@@ -179,25 +180,26 @@ function draw(){
 function addRain(type){
   for(var i = 0;i <1;i++){
     if(type=='normal'){
-      Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, round(random(15, 30)), true));
+      Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, round(random(25, 50)), true));
     }
     else if(type=='hard'){
-      Rain.push(new ql(5, 60, 1.4+random(-0.1, 0.1), 'red', 15, 30, 5, round(random(5, 30)), true));
+      Rain.push(new ql(5, 60, 1.4+random(-0.1, 0.1), 'red', 15, 30, 5, round(random(10, 40)), true));
     }
     else if(type=='heal'){
       Rain.push(new ql(10, 60, 0.8+random(-0.1, 0.1), 'green', -20, 0, 0, 4, true));
     }
     else if(type=='speed'){
       Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 7, 3, 0, round(random(15, 30)), false));
+      Rain.push(new ql(5, 120, 4+random(-1, 3), 'lightpurple', 7, 3, 0, round(random(15, 30)), false));
     }
     else if(type=='infrain'){
       Rain.push(new ql(5, 60, 1+random(-0.1, 0.1), 'lightblue', 10, 5, 5, -1, false));
     }
     else if(type=='board'){
-      Rain.push(new ql(300, 20, 0.7+random(0, 0.2), 'blue', 30, 30, 0, round(random(3, 7)), true));
+      Rain.push(new ql(300, 20, 0.85+random(0, 0.3), 'blue', 30, 30, 0, round(random(3, 7)), true));
     }
     else if(type=='blood'){
-      Rain.push(new ql(20, 100, 1.4+random(-0.1, 0.1), 'darkred', 50, 400, 20, round(random(3, 10)), true));
+      Rain.push(new ql(20, 100, 1.4+random(-0.1, 0.1), 'darkred', 50, 400, 20, round(random(6, 20)), true));
     }
     
   }
