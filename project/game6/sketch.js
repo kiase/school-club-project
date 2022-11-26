@@ -305,7 +305,7 @@ class ql{
         this.y = -100;
         this.w = w;
         this.h = h;
-        this.v = v*1.2;
+        this.v = v*1.1;
         this.c = c;
         this.d = d;
         this.pd = pd;
