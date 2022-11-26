@@ -212,7 +212,7 @@ async function starter(level){
     for(let j=0;j<g.rangeX;j++){
       if(level<=5){
         append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 40));
-      }else if(level<=14){
+      }else if(level<=12){
         append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 25));
       }else{
         append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 15));
@@ -254,7 +254,10 @@ function setup() {
     button[i] = createButton((i+2)+'x'+(i+2));
     button[i].size(60, 60);
     button[i].position(windowWidth/2-width/4+width/6*(i%4), height/3+80*floor(i/4));
-    button[i].mousePressed(eval('ff'+(i+2)));
+    try{
+      button[i].mousePressed(eval('ff'+(i+2)));
+    }
+    catch{}
   }
 }
 function bth(){
