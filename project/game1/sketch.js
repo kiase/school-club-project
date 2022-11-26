@@ -212,8 +212,10 @@ async function starter(level){
     for(let j=0;j<g.rangeX;j++){
       if(level<=5){
         append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 40));
-      }else{
+      }else if(level<=14){
         append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 25));
+      }else{
+        append(puzzle, new block(g.cellWidth*j,g.cellHeight*i,g.cellWidth, g.cellHeight, i*g.rangeX+j+1, 15));
       }
     }
   }
